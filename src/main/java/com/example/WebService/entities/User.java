@@ -1,14 +1,24 @@
 package com.example.WebService.entities;
-
+// Anottaion serve instruir pro jpa converter modelo relacional 
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.Entity; // Preferencia pra especificafica  e não a implementação
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 //Essa interface transforma o sobjetos em cadeia de bits, para serem utilzaidos melhores na rede
+@Entity
+@Table (name = "tb_user") 
 public class User implements Serializable{
 
 	
 	private static final long serialVersionUID = 1L;
 	
-	
+	@Id
+	@GeneratedValue (strategy = GenerationType.IDENTITY) // cOLOCA ID AUTOMATICO
 	private Long id;
 	private String name;
 	private String email;

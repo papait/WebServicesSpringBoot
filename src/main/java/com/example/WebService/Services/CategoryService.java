@@ -10,22 +10,21 @@ import com.example.WebService.Repositorys.CategoryRepository;
 import com.example.WebService.Repositorys.OrderRepository;
 import com.example.WebService.entities.Category;
 import com.example.WebService.entities.Order;
-
+import com.example.WebService.entities.User;
 @Component
-public class OrderService {
-
+public class CategoryService {
 
 	@Autowired
-	private OrderRepository orderRepository;
-	
-	
-	public List<Order> findAll (){
-		return orderRepository.findAll();
+	private CategoryRepository categoryRepository;
+
+
+	public List<Category> findAll (){
+		return categoryRepository.findAll();
 	}
-	
-	public Order findById (Long id) {
-		Optional<Order> objt = orderRepository.findById(id);
+
+	public Category findById (Long id) {
+		Optional<Category> objt = categoryRepository.findById(id);
 		return objt.get(); // get retornar o objto dentro do optional
 	}
-	
 }
+

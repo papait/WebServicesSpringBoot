@@ -9,12 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table (name = "tb_product")
-public class Product  implements Serializable{
+public class Product  implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -24,17 +27,18 @@ public class Product  implements Serializable{
 	private String description;
 	private Double price;
 	private String imgUrl;
-	
-	//Set uso pq representa um conjunto. garantir que um produo n tenha a mesma categoriga mais de uma vez
-	@Transient
-	private Set <Category> categories = new HashSet<>();
-	
-	public Product () {
-		
+
+	@ManyToMany // Crio para reçaões manytomany pra criar uma tabela assoiativa das PK
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	private Set<Category> categories = new HashSet<>();// Set uso pq representa um conjunto. garantir que um produo n
+														// tenha a mesma categoriga mais de uma vez
+
+	public Product() {
+
 	}
 
 	public Product(Long id, String name, String description, Double price, String imgUrl) {
-		
+
 		this.id = id;
 		this.name = name;
 		this.description = description;
@@ -82,10 +86,10 @@ public class Product  implements Serializable{
 		this.imgUrl = imgUrl;
 	}
 
-	public Set <Category> getCategories() {
+	public Set<Category> getCategories() {
 		return categories;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -103,10 +107,4 @@ public class Product  implements Serializable{
 		return Objects.equals(id, other.id);
 	}
 
-
-	
-	
-	
-	
-	
 }

@@ -2,7 +2,9 @@ package com.example.WebService.entities;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.example.WebService.entities.enums.OrderStatus;
@@ -35,6 +38,10 @@ public class Order implements Serializable {
 	@ManyToOne //Constraint
 	@JoinColumn (name = "client_id") //Criando a coluno com o a CHAVE
 	private User client; //Montar o relacionamento JPA, tranformar em foreign key
+	
+	
+	@OneToMany (mappedBy = "id.order") //id.order pq é o id order
+	private Set <OrderItem> items = new HashSet<>();
 	
 	public Order () {
 		
@@ -79,6 +86,10 @@ public class Order implements Serializable {
 		if (orderStatus != null) {
 		this.orderStatus = orderStatus.getCode(); //Converter Integer
 		}
+	}
+	
+	public Set<OrderItem> getItems (){
+		return items;
 	}
 
 	@Override

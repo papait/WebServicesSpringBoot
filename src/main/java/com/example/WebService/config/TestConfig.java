@@ -18,6 +18,7 @@ import com.example.WebService.Repositorys.UserRepository;
 import com.example.WebService.entities.Category;
 import com.example.WebService.entities.Order;
 import com.example.WebService.entities.OrderItem;
+import com.example.WebService.entities.Payment;
 import com.example.WebService.entities.Product;
 import com.example.WebService.entities.User;
 import com.example.WebService.entities.enums.OrderStatus;
@@ -89,6 +90,12 @@ public class TestConfig implements CommandLineRunner {
 		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 		
 		orderItemReposi.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+		
+		Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:53:07Z"),o1);
+		// relação on para one não chamo o reposito do proprio objt faço associação em memmoria
+		
+		o1.setPayment(pay1);
+		orderRepository.save(o1);
 	}
 
 	

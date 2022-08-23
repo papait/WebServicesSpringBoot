@@ -1,13 +1,18 @@
 package com.example.WebService.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.WebService.Services.UserService;
 import com.example.WebService.entities.User;
@@ -38,6 +43,21 @@ public class UserResources {
 	
 	public ResponseEntity<User> findById(@PathVariable Long id){
 		User obj = service.findById(id);
-		return ResponseEntity.ok().body(obj); //ok indica sucesso e o corpo da requisão eu passo o obj
+		return ResponseEntity.ok().body(obj); //ok indica sucesso e o corpo da requisão eu passo o obj (Retornar a resposta da requisão)
+	}
+	
+	@PostMapping
+	public ResponseEntity<User> insert (@RequestBody User obj){ //Para que esse objt que chegar no modo JSON na hr requisição, e esse JSON vai ser deserializado para obj USER java
+		obj = service.insert(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri(); //
+		return ResponseEntity.created(uri).body(obj) ;
+													//Creatd espera um objt URI
+												// Padrão HTTP retornar um 201 É ESPERADO QUE A RESPOTA CONTENHa HEADERS COM O RECURSO QUE VC INSERIU (caminho )
+	}
+	
+	@DeleteMapping (value = "/{id}")
+	public ResponseEntity<Void> delete (@PathVariable Long id) { //Para id ser reconhecido como uma variavel da minha URL
+		service.delete(id);
+		return ResponseEntity.noContent().build(); //Responsa sem corpo
 	}
 }

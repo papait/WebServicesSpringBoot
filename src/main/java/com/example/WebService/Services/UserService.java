@@ -26,4 +26,12 @@ public class UserService {
 		Optional<User> objt = userrepository.findById(id);
 		return objt.get(); // get retornar o objto dentro do optional
 	}
+	
+	public User insert (User obj) {
+		return userrepository.save(obj);
+	}
+	
+	public void delete (Long id) {
+		userrepository.deleteById(id);
+	}
 }
